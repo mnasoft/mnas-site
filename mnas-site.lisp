@@ -29,4 +29,22 @@
 	    (push pr-disp *dispatch-table*)
 	    (push pr-disp ,disp-tbl))))
 
-;;;;(defmacro define-url-fn ((name) &body body) `(progn (defun ,name() ,@body) (push (create-prefix-dispatcher ,(format nil "/~(~a~)" name) ',name) *dispatch-table*)))
+(defun allowed-address-p()
+  (member (real-remote-addr)  (allowed-address-list) :test #'equal))
+
+(defun allowed-address-list()
+  (let ((m-inst (machine-instance)))
+    (cond
+      ((or (string= m-inst "mnasoft-00") (string= m-inst "mnasoft-pi"))
+       '(list "127.0.0.1" "192.168.0.100" "192.168.0.101" "192.168.0.102" "192.168.0.103" "192.168.0.110" )
+       )
+      ((or (string= m-inst "hp1"))
+         (apply #'append 
+	 (mapcar #'(lambda (el) (ip-by-name el)) 
+		 (append
+		  *localhost*
+		  *dep11-comps*
+		  *dep-oakts-comps*)))))))
+
+
+ 
