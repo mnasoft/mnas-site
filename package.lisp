@@ -1,8 +1,9 @@
 ;;;; package.lisp
 
 (defpackage #:mnas-site
-  (:use #:cl #:hunchentoot #:cl-who #:mnas-string #:mnas-dns #:dep11)
+  (:use #:cl #:hunchentoot #:cl-who #:mnas-string #:mnas-dns #:mnas-site-route)
   (:export *mnas-site-acceptor*
+	   *mnas-site-port*
 	   mnas-site-start
 	   mnas-site-stop
 	   clean-dispatch-table
