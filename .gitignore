@@ -3,10 +3,11 @@
 *.fasl
 *.lisp-temp
 *~
+\#*#
+
 *.pdf
 *.png
 *.gv
 *.html
 *.svg
 *.dot
-*#
