@@ -34,28 +34,25 @@
 	    (push pr-disp *dispatch-table*)
 	    (push pr-disp ,disp-tbl))))
 
-(defun allowed-address-p()
-  (let ((m-inst (machine-instance)))
-    (cond
-      ((string= m-inst "mnasoft-pi") t) ;; (list "127.0.0.1" "192.168.0.100" "192.168.0.101" "192.168.0.102" "192.168.0.103" "192.168.0.110")
-      ((string= m-inst "mnasoft-00")
-       (append *localhost-ip*  *mnasoft-comps-ip*))
-      (t (member (real-remote-addr)  (allowed-address-list) :test #'equal)))))
-
 (defun allowed-address-list()
   (let ((m-inst (machine-instance)))
     (cond
-      ((or (string= m-inst "mnasoft-00") (string= m-inst "mnasoft-pi"))
-       (append *localhost-ip*  *mnasoft-comps-ip*))
       ((or (string= m-inst "hp1.zorya.com"))
-       (apply
-	#'append 
-	(mapcar
-	 #'(lambda (el) (ip-by-name el)) 
-	 (append
-	  *localhost*
-	  *dep11-comps*
-	  *dep-oakts-comps*)))))))
+       (apply #'append 
+	      (mapcar #'(lambda (el) (ip-by-name el)) 
+		      (append *localhost* *dep11-comps* *dep-oakts-comps*))))
+      ((or (string= m-inst "mnasoft-00")
+	   (string= m-inst "mnasoft-pi")
+	   (string= m-inst "MNASOFT-01"))
+       (append *localhost-ip* *mnasoft-comps-ip*))
+      (t  (append *localhost-ip*)))))
+
+(defun allowed-address-p()
+  (let ((m-inst (machine-instance)))
+    (cond
+      ((string= m-inst "mnasoft-pi") t)
+      ((string= m-inst "mnasoft-00") (append *localhost-ip*  *mnasoft-comps-ip*))
+      (t (member (real-remote-addr)  (allowed-address-list) :test #'equal)))))
 
 (defun mnas-site-set-document-root ()
   (setf (acceptor-document-root *mnas-site-acceptor*) *mnas-site-document-root*))
