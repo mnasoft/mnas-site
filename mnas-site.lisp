@@ -37,7 +37,8 @@
 (defun allowed-address-list()
   (let ((m-inst (machine-instance)))
     (cond
-      ((or (string= m-inst "hp1.zorya.com"))
+      ((or (string= m-inst "hp1.zorya.com")
+	   (string= m-inst "KO11-118383"))
        (apply #'append 
 	      (mapcar #'(lambda (el) (ip-by-name el)) 
 		      (append *localhost* *dep11-comps* *dep-oakts-comps*))))
@@ -56,3 +57,5 @@
 
 (defun mnas-site-set-document-root ()
   (setf (acceptor-document-root *mnas-site-acceptor*) *mnas-site-document-root*))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
