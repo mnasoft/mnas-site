@@ -6,7 +6,10 @@
 
 (setf (html-mode) :HTML5)
 
-(defparameter *mnas-site-document-root* "/home/namatv/public_html/")
+(defparameter *mnas-site-document-root*
+  (cond
+    ((string= (machine-instance) "MNASOFT-01") "M:/namatv/public_html/" )
+    (t "/home/namatv/public_html/")))
 
 (defparameter *mnas-site-acceptor* nil)
 
