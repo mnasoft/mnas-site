@@ -9,6 +9,8 @@
 (defparameter *mnas-site-document-root*
   (cond
     ((string= (machine-instance) "MNASOFT-01") "M:/namatv/public_html/" )
+    ((string= (machine-instance) "KO11-118383") "\\\\n000171\\home\\_namatv\\public_html\\" )
+    ((string= (machine-instance) "N133619") "\\\\n000171\\home\\_namatv\\public_html\\" )
     (t "/home/namatv/public_html/")))
 
 (defparameter *mnas-site-acceptor* nil)
@@ -37,6 +39,8 @@
 	    (push pr-disp *dispatch-table*)
 	    (push pr-disp ,disp-tbl))))
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 (defun allowed-address-list()
   (let ((m-inst (machine-instance)))
     (cond
@@ -56,9 +60,11 @@
     (cond
       ((string= m-inst "mnasoft-pi") t)
       ((string= m-inst "mnasoft-00") (append *localhost-ip*  *mnasoft-comps-ip*))
-      (t (member (real-remote-addr)  (allowed-address-list) :test #'equal)))))
+      (t (member (real-remote-addr)  (allowed-address-list) :test #'equal)))
+;;;;    
+;;;;    t
+;;;;    
+    ))
 
 (defun mnas-site-set-document-root ()
   (setf (acceptor-document-root *mnas-site-acceptor*) *mnas-site-document-root*))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
