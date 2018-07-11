@@ -6,11 +6,36 @@
 
 (setf (html-mode) :HTML5)
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(defun dep11-allowed-ip ()
+  (apply #'append 
+	 (mapcar #'(lambda (el) (ip-by-name el)) 
+		 (append *localhost* *dep11-comps* *dep-oakts-comps*))))
+
+(defparameter *dep11-allowed-ip* (dep11-allowed-ip))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(defparameter *i* 0)
+
+(defun update-ip-in-thread ()
+  (sb-thread:make-thread 
+   #'(lambda ()
+       (do () (nil)
+	 (setf *dep11-allowed-ip* (dep11-allowed-ip))
+	 (setf *i* (incf *i*))
+	 (sleep 300)))))
+
+(update-ip-in-thread)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 (defparameter *mnas-site-document-root*
   (cond
-    ((string= (machine-instance) "MNASOFT-01") "M:/namatv/public_html/" )
-    ((string= (machine-instance) "KO11-118383") "\\\\n000171\\home\\_namatv\\public_html\\" )
-    ((string= (machine-instance) "N133619") "\\\\n000171\\home\\_namatv\\public_html\\" )
+    ((string= (machine-instance) "MNASOFT-01")  "M:/namatv/public_html/" )
+    ((string= (machine-instance) "KO11-118383") "\\\\N133619\\home\\_namatv\\public_html\\" )
+    ((string= (machine-instance) "N133619")     "\\\\N133619\\home\\_namatv\\public_html\\" )
     (t "/home/namatv/public_html/")))
 
 (defparameter *mnas-site-acceptor* nil)
@@ -45,10 +70,9 @@
   (let ((m-inst (machine-instance)))
     (cond
       ((or (string= m-inst "hp1.zorya.com")
-	   (string= m-inst "KO11-118383"))
-       (apply #'append 
-	      (mapcar #'(lambda (el) (ip-by-name el)) 
-		      (append *localhost* *dep11-comps* *dep-oakts-comps*))))
+	   (string= m-inst "KO11-118383")
+           (string= m-inst "N133619"))
+       *dep11-allowed-ip*)
       ((or (string= m-inst "mnasoft-00")
 	   (string= m-inst "mnasoft-pi")
 	   (string= m-inst "MNASOFT-01"))
@@ -60,11 +84,9 @@
     (cond
       ((string= m-inst "mnasoft-pi") t)
       ((string= m-inst "mnasoft-00") (append *localhost-ip*  *mnasoft-comps-ip*))
-      (t (member (real-remote-addr)  (allowed-address-list) :test #'equal)))
-;;;;    
-;;;;    t
-;;;;    
-    ))
+      (t (member (real-remote-addr)  (allowed-address-list) :test #'equal)))))
 
 (defun mnas-site-set-document-root ()
   (setf (acceptor-document-root *mnas-site-acceptor*) *mnas-site-document-root*))
+
+
