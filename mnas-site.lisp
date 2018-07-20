@@ -19,15 +19,18 @@
 
 (defparameter *i* 0)
 
+(defparameter *sleep-time* 300)
+
+(export 'update-ip)
+(defun update-ip () (setf *dep11-allowed-ip* (dep11-allowed-ip)))
+
 (defun update-ip-in-thread ()
   (sb-thread:make-thread 
    #'(lambda ()
        (do () (nil)
-	 (setf *dep11-allowed-ip* (dep11-allowed-ip))
+	 (update-ip)
 	 (setf *i* (incf *i*))
-	 (sleep 300)))))
-
-(update-ip-in-thread)
+	 (sleep *sleep-time*)))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -90,3 +93,8 @@
   (setf (acceptor-document-root *mnas-site-acceptor*) *mnas-site-document-root*))
 
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(update-ip-in-thread)
+
+;;;; (update-ip)
