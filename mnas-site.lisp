@@ -36,7 +36,7 @@
 
 (defparameter *mnas-site-document-root*
   (cond
-    ((string= (machine-instance) "MNASOFT-01")  "M:/namatv/public_html/" )
+    ((string= (machine-instance) "MNASOFT-01")  "D:/PRG/msys32/home/namatv/public_html/" )
     ((string= (machine-instance) "KO11-118383") "\\\\N133619\\home\\_namatv\\public_html\\" )
     ((string= (machine-instance) "N133619")     "\\\\N133619\\home\\_namatv\\public_html\\" )
     (t "/home/namatv/public_html/")))
