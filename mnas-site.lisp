@@ -37,8 +37,8 @@
 (defparameter *mnas-site-document-root*
   (cond
     ((string= (machine-instance) "MNASOFT-01")  "D:/PRG/msys32/home/namatv/public_html/" )
-    ((string= (machine-instance) "KO11-118383") "\\\\N133619\\home\\_namatv\\public_html\\" )
-    ((string= (machine-instance) "N133619")     "\\\\N133619\\home\\_namatv\\public_html\\" )
+    ((string= (machine-instance) "N133907")     "\\\\N000171\\home\\_namatv\\public_html\\" )
+    ((string= (machine-instance) "N000466")     "\\\\N000171\\home\\_namatv\\public_html\\" )
     (t "/home/namatv/public_html/")))
 
 (defparameter *mnas-site-acceptor* nil)
@@ -73,8 +73,8 @@
   (let ((m-inst (machine-instance)))
     (cond
       ((or (string= m-inst "hp1.zorya.com")
-	   (string= m-inst "KO11-118383")
-           (string= m-inst "N133619"))
+	   (string= m-inst "N133907")
+           (string= m-inst "N000466"))
        *dep11-allowed-ip*)
       ((or (string= m-inst "mnasoft-00")
 	   (string= m-inst "mnasoft-pi")
