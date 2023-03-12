@@ -1,6 +1,6 @@
 ;;;; mnas-site.lisp
 
-(in-package #:mnas-site)
+(in-package :mnas-site)
 
 ;;; "mnas-site" goes here. Hacks and glory await!
 

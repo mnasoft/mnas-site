@@ -1,6 +1,6 @@
 ;;;; package.lisp
 
-(defpackage #:mnas-site
+(defpackage :mnas-site
   (:use #:cl #:hunchentoot #:cl-who #:mnas-string #:mnas-dns #:mnas-site-route)
   (:export *mnas-site-acceptor*
 	   *mnas-site-port*
